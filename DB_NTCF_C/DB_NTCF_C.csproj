@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{066FA61B-A9E0-4CFA-BAD3-24CE40931D8A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>DB_NTCF_C</RootNamespace>
+    <AssemblyName>DB_NTCF_C</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.10.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.10.4\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web, Version=6.10.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.10.4\Assemblies\v4.5.2\MySql.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="cancelbill.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="cancelbill.Designer.cs">
+      <DependentUpon>cancelbill.cs</DependentUpon>
+    </Compile>
+    <Compile Include="cancelorder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="cancelorder.Designer.cs">
+      <DependentUpon>cancelorder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Customer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Customer.Designer.cs">
+      <DependentUpon>Customer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="emp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="emp.Designer.cs">
+      <DependentUpon>emp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="home.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="home.Designer.cs">
+      <DependentUpon>home.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="การขายส่ง.cs">
+      <SubType>Form</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="การขายส่ง.Designer.cs">
+      <DependentUpon>การขายส่ง.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="การจัดการสาขา.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="การจัดการสาขา.Designer.cs">
+      <DependentUpon>การจัดการสาขา.cs</DependentUpon>
+    </Compile>
+    <Compile Include="การจัดการแผนก.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="การจัดการแผนก.Designer.cs">
+      <DependentUpon>การจัดการแผนก.cs</DependentUpon>
+    </Compile>
+    <Compile Include="การสรุปยอดขาย.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="การสรุปยอดขาย.Designer.cs">
+      <DependentUpon>การสรุปยอดขาย.cs</DependentUpon>
+    </Compile>
+    <Compile Include="การสั่งซื้อจาก Vendor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="การสั่งซื้อจาก Vendor.Designer.cs">
+      <DependentUpon>การสั่งซื้อจาก Vendor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="จัดการรถ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="จัดการรถ.Designer.cs">
+      <DependentUpon>จัดการรถ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ขายสินค้า.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ขายสินค้า.Designer.cs">
+      <DependentUpon>ขายสินค้า.cs</DependentUpon>
+    </Compile>
+    <Compile Include="จัดการ Vendor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="จัดการ Vendor.Designer.cs">
+      <DependentUpon>จัดการ Vendor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="จัดการประเภท.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="จัดการประเภท.Designer.cs">
+      <DependentUpon>จัดการประเภท.cs</DependentUpon>
+    </Compile>
+    <Compile Include="จัดการสินค้า.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="จัดการสินค้า.Designer.cs">
+      <DependentUpon>จัดการสินค้า.cs</DependentUpon>
+    </Compile>
+    <Compile Include="บันทึกการยืมสินค้า.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="บันทึกการยืมสินค้า.Designer.cs">
+      <DependentUpon>บันทึกการยืมสินค้า.cs</DependentUpon>
+    </Compile>
+    <Compile Include="บันทึกการเคลม Vendor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="บันทึกการเคลม Vendor.Designer.cs">
+      <DependentUpon>บันทึกการเคลม Vendor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="บันทึกการเคลมลูกค้า.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="บันทึกการเคลมลูกค้า.Designer.cs">
+      <DependentUpon>บันทึกการเคลมลูกค้า.cs</DependentUpon>
+    </Compile>
+    <Compile Include="รับสินค้า.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="รับสินค้า.Designer.cs">
+      <DependentUpon>รับสินค้า.cs</DependentUpon>
+    </Compile>
+    <Compile Include="รายการขาย.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="รายการขาย.Designer.cs">
+      <DependentUpon>รายการขาย.cs</DependentUpon>
+    </Compile>
+    <Compile Include="สรุปยอดรวม.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="สรุปยอดรวม.Designer.cs">
+      <DependentUpon>สรุปยอดรวม.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="cancelbill.resx">
+      <DependentUpon>cancelbill.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="cancelorder.resx">
+      <DependentUpon>cancelorder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Customer.resx">
+      <DependentUpon>Customer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="emp.resx">
+      <DependentUpon>emp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="home.resx">
+      <DependentUpon>home.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="การขายส่ง.resx">
+      <DependentUpon>การขายส่ง.cs</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="การจัดการสาขา.resx">
+      <DependentUpon>การจัดการสาขา.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="การจัดการแผนก.resx">
+      <DependentUpon>การจัดการแผนก.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="การสรุปยอดขาย.resx">
+      <DependentUpon>การสรุปยอดขาย.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="การสั่งซื้อจาก Vendor.resx">
+      <DependentUpon>การสั่งซื้อจาก Vendor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="จัดการรถ.resx">
+      <DependentUpon>จัดการรถ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ขายสินค้า.resx">
+      <DependentUpon>ขายสินค้า.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="จัดการ Vendor.resx">
+      <DependentUpon>จัดการ Vendor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="จัดการประเภท.resx">
+      <DependentUpon>จัดการประเภท.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="จัดการสินค้า.resx">
+      <DependentUpon>จัดการสินค้า.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="บันทึกการยืมสินค้า.resx">
+      <DependentUpon>บันทึกการยืมสินค้า.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="บันทึกการเคลม Vendor.resx">
+      <DependentUpon>บันทึกการเคลม Vendor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="บันทึกการเคลมลูกค้า.resx">
+      <DependentUpon>บันทึกการเคลมลูกค้า.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="รับสินค้า.resx">
+      <DependentUpon>รับสินค้า.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="รายการขาย.resx">
+      <DependentUpon>รายการขาย.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="สรุปยอดรวม.resx">
+      <DependentUpon>สรุปยอดรวม.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

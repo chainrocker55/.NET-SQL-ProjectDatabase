@@ -1,0 +1,1006 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 4.7.4
+- https://www.phpmyadmin.net
+-
+- Host: 127.0.0.1
+- Generation Time: Feb 14, 2018 at 08:34 PM
+- Server version: 10.1.28-MariaDB
+- PHP Version: 7.1.11
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="s59160089" collation="utf8_general_ci" charset="utf8">
+            <pma:table name="billorder">
+                CREATE TABLE `billorder` (
+                  `BillOrder_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `datePay` date NOT NULL,
+                  `statut` tinyint(1) NOT NULL DEFAULT '0',
+                  `amount` double NOT NULL,
+                  `TypePay_ID` int(11) DEFAULT NULL,
+                  `recOrderVendor_ID` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`BillOrder_ID`),
+                  KEY `recOrderVendor_ID` (`recOrderVendor_ID`),
+                  KEY `TypePay_ID` (`TypePay_ID`),
+                  CONSTRAINT `billorder_ibfk_1` FOREIGN KEY (`recOrderVendor_ID`) REFERENCES `recordervendor` (`recOrderVendor_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `billorder_ibfk_2` FOREIGN KEY (`TypePay_ID`) REFERENCES `typepay` (`TypePay_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="branch">
+                CREATE TABLE `branch` (
+                  `Branch_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Bra_Tal` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Bra_HouseNo` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Bra_Area` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Bra_Subarea` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Bra_Road` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Bra_Province` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Bra_PostalCode` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Bra_Email` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  PRIMARY KEY (`Branch_ID`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="car">
+                CREATE TABLE `car` (
+                  `Car_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `register` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `NumberTank` int(11) NOT NULL,
+                  `Branch_ID` int(11) NOT NULL,
+                  `status` tinyint(1) DEFAULT NULL,
+                  PRIMARY KEY (`Car_ID`),
+                  KEY `Branch_ID` (`Branch_ID`),
+                  CONSTRAINT `Car_ibfk_1` FOREIGN KEY (`Branch_ID`) REFERENCES `branch` (`Branch_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="copy">
+                CREATE TABLE `copy` (
+                  `ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Product_ID` int(11) NOT NULL,
+                  `Qty` int(11) NOT NULL,
+                  PRIMARY KEY (`ID`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="customer">
+                CREATE TABLE `customer` (
+                  `Customer_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Cus_Fname` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Cus_Lname` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Cus_Email` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+                  `Cus_HouseNo` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Cus_Road` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Cus_Subarea` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Cus_Area` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Cus_Province` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Cus_PostalCode` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Tel` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  PRIMARY KEY (`Customer_ID`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="department">
+                CREATE TABLE `department` (
+                  `Department_Name` varchar(50) NOT NULL DEFAULT '',
+                  `ID_Head` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`Department_Name`),
+                  KEY `ID_Head` (`ID_Head`),
+                  CONSTRAINT `Department_ibfk_1` FOREIGN KEY (`ID_Head`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="detailclaimvendor">
+                CREATE TABLE `detailclaimvendor` (
+                  `DetailClaimVendor_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Qty` int(11) NOT NULL,
+                  `recClaimVendor_ID` int(11) NOT NULL,
+                  `Product_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`DetailClaimVendor_ID`),
+                  KEY `recClaimVendor_ID` (`recClaimVendor_ID`),
+                  KEY `Product_ID` (`Product_ID`),
+                  CONSTRAINT `DetailClaimVendor_ibfk_1` FOREIGN KEY (`recClaimVendor_ID`) REFERENCES `recclaimvendor_id` (`recClaimVendor_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `DetailClaimVendor_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="detailfix">
+                CREATE TABLE `detailfix` (
+                  `DetailFix_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Cause` text CHARACTER SET utf8 NOT NULL,
+                  `Amount` int(11) NOT NULL,
+                  `Car_ID` int(11) NOT NULL,
+                  `Fix_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`DetailFix_ID`),
+                  KEY `Car_ID` (`Car_ID`,`Fix_ID`),
+                  KEY `Fix_ID` (`Fix_ID`),
+                  CONSTRAINT `DetailFix_ibfk_1` FOREIGN KEY (`Car_ID`) REFERENCES `car` (`Car_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `DetailFix_ibfk_2` FOREIGN KEY (`Fix_ID`) REFERENCES `fix` (`Fix_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="detailrend">
+                CREATE TABLE `detailrend` (
+                  `DetailRend_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Qty` int(11) NOT NULL,
+                  `Product_ID` int(11) NOT NULL,
+                  `recLend_ID` int(11) DEFAULT NULL,
+                  `Destination_Branch` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`DetailRend_ID`),
+                  KEY `Product_ID` (`Product_ID`),
+                  KEY `recLend_ID` (`recLend_ID`),
+                  CONSTRAINT `DetailRend_ibfk_1` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `DetailRend_ibfk_2` FOREIGN KEY (`recLend_ID`) REFERENCES `reclend` (`reclend_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="detailsend">
+                CREATE TABLE `detailsend` (
+                  `DetailSend_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `recSender_ID` int(11) NOT NULL,
+                  `Order_ID` int(11) NOT NULL,
+                  `Customer_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`DetailSend_ID`),
+                  KEY `recSender_ID` (`recSender_ID`,`Order_ID`,`Customer_ID`),
+                  KEY `Customer_ID` (`Customer_ID`),
+                  CONSTRAINT `DetailSend_ibfk_1` FOREIGN KEY (`recSender_ID`) REFERENCES `recsender` (`recSender_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `DetailSend_ibfk_2` FOREIGN KEY (`Customer_ID`) REFERENCES `customer` (`Customer_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="employee">
+                CREATE TABLE `employee` (
+                  `Employee_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `EMP_FNAME` varchar(50) DEFAULT NULL,
+                  `EMP_LNAME` varchar(50) DEFAULT NULL,
+                  `Publiccode` char(13) DEFAULT NULL,
+                  `Accountnumber` varchar(50) DEFAULT NULL,
+                  `Address` text,
+                  `HisEducation` text,
+                  `Tel` varchar(50) DEFAULT NULL,
+                  `Email` varchar(50) DEFAULT NULL,
+                  `DateStart` date DEFAULT NULL,
+                  `Brithday` date DEFAULT NULL,
+                  `Salary` int(11) DEFAULT NULL,
+                  `Department_ID` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+                  `Branch_ID` int(11) DEFAULT NULL,
+                  `Position_ID` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+                  PRIMARY KEY (`Employee_ID`),
+                  KEY `Department_ID` (`Department_ID`,`Branch_ID`,`Position_ID`),
+                  KEY `Branch ID` (`Branch_ID`),
+                  KEY `Position_ID` (`Position_ID`),
+                  CONSTRAINT `Employee_ibfk_2` FOREIGN KEY (`Branch_ID`) REFERENCES `branch` (`Branch_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `Employee_ibfk_3` FOREIGN KEY (`Department_ID`) REFERENCES `department` (`Department_Name`) ON DELETE SET NULL ON UPDATE CASCADE,
+                  CONSTRAINT `Employee_ibfk_4` FOREIGN KEY (`Position_ID`) REFERENCES `position` (`Position_Name`) ON DELETE SET NULL ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=8463 DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="fix">
+                CREATE TABLE `fix` (
+                  `Fix_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `DateSent` date NOT NULL,
+                  `DateRe` date NOT NULL,
+                  `sumprice` int(11) NOT NULL DEFAULT '0',
+                  `Employee_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`Fix_ID`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `Fix_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="login">
+                CREATE TABLE `login` (
+                  `Login_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `username` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `password` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `level` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Employee_ID` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`Login_ID`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `Login_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="orderdetails">
+                CREATE TABLE `orderdetails` (
+                  `Order_Details_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Qty` int(11) NOT NULL,
+                  `price` double NOT NULL,
+                  `Product_ID` int(11) NOT NULL,
+                  `Order_ID` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`Order_Details_ID`),
+                  KEY `Product_ID` (`Product_ID`),
+                  KEY `Order_ID` (`Order_ID`),
+                  CONSTRAINT `Orderdetails_ibfk_1` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `Orderdetails_ibfk_2` FOREIGN KEY (`Order_ID`) REFERENCES `orders` (`Order_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="orders">
+                CREATE TABLE `orders` (
+                  `Order_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Date_Order` date NOT NULL,
+                  `Date_Required` date NOT NULL,
+                  `Total_Quantity` int(11) NOT NULL,
+                  `Total_Price` double NOT NULL,
+                  `Employee_ID` int(11) NOT NULL,
+                  `Customer_ID` int(11) NOT NULL,
+                  `status` tinyint(4) DEFAULT '0',
+                  PRIMARY KEY (`Order_ID`),
+                  KEY `Customer_ID` (`Customer_ID`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `Orders_ibfk_2` FOREIGN KEY (`Customer_ID`) REFERENCES `customer` (`Customer_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="position">
+                CREATE TABLE `position` (
+                  `Position_Name` varchar(50) NOT NULL,
+                  `Position_Fee` double NOT NULL,
+                  PRIMARY KEY (`Position_Name`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="product">
+                CREATE TABLE `product` (
+                  `Product_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `nameProduct` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `TypeProduct` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Qty` int(11) unsigned NOT NULL,
+                  `wholesaleCost` double NOT NULL,
+                  `RetailPrice` double NOT NULL,
+                  PRIMARY KEY (`Product_ID`),
+                  KEY `TypeProduct` (`TypeProduct`),
+                  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`TypeProduct`) REFERENCES `typeproduct` (`name`) ON DELETE NO ACTION ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recclaimcustomer">
+                CREATE TABLE `recclaimcustomer` (
+                  `recClaimCustomer_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Date_Cus_Claim` date NOT NULL,
+                  `Date_Product_Cus` date NOT NULL,
+                  `Cause` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Sum_Qty` int(11) NOT NULL,
+                  `status` tinyint(4) NOT NULL DEFAULT '0',
+                  `recSender_ID` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`recClaimCustomer_ID`),
+                  KEY `recSender_ID` (`recSender_ID`),
+                  CONSTRAINT `recClaimCustomer_ibfk_1` FOREIGN KEY (`recSender_ID`) REFERENCES `recsender` (`recSender_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recclaimvendor_id">
+                CREATE TABLE `recclaimvendor_id` (
+                  `recClaimVendor_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `DateRequest` date NOT NULL,
+                  `DateGet` date NOT NULL,
+                  `Status` tinyint(4) NOT NULL,
+                  `Cause` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `recOrderVendor_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recClaimVendor_ID`),
+                  KEY `recOrderVendor_ID` (`recOrderVendor_ID`),
+                  CONSTRAINT `recClaimVendor_ID_ibfk_1` FOREIGN KEY (`recOrderVendor_ID`) REFERENCES `recordervendor` (`recOrderVendor_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recdetailclaimcus">
+                CREATE TABLE `recdetailclaimcus` (
+                  `recDetailClaimCus_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Qty` int(11) NOT NULL,
+                  `Status` tinyint(4) NOT NULL DEFAULT '0',
+                  `recClaimCustomer_ID` int(11) DEFAULT NULL,
+                  `Product_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recDetailClaimCus_ID`),
+                  KEY `recClaimCustomer_ID` (`recClaimCustomer_ID`),
+                  KEY `Product ID` (`Product_ID`),
+                  CONSTRAINT `recDetailClaimCus_ibfk_1` FOREIGN KEY (`recClaimCustomer_ID`) REFERENCES `recclaimcustomer` (`recClaimCustomer_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recDetailClaimCus_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recdetailordervendor">
+                CREATE TABLE `recdetailordervendor` (
+                  `recDetailOrderVendor_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Qty` int(11) NOT NULL,
+                  `Price` double NOT NULL,
+                  `recOrderVendor_ID` int(11) DEFAULT NULL,
+                  `Product_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recDetailOrderVendor_ID`),
+                  KEY `recOrderVendor_ID` (`recOrderVendor_ID`),
+                  KEY `Product ID` (`Product_ID`),
+                  CONSTRAINT `recDetailOrderVendor_ibfk_1` FOREIGN KEY (`recOrderVendor_ID`) REFERENCES `recordervendor` (`recOrderVendor_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recDetailOrderVendor_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recdetailreclaim">
+                CREATE TABLE `recdetailreclaim` (
+                  `recDetailReClaim_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Qty` int(11) NOT NULL DEFAULT '0',
+                  `price` double NOT NULL DEFAULT '0',
+                  `recReceiveClaim_ID` int(11) DEFAULT NULL,
+                  `Product_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recDetailReClaim_ID`),
+                  KEY `recReceive_ID` (`recReceiveClaim_ID`,`Product_ID`),
+                  KEY `recReceiveClaim_ID` (`recReceiveClaim_ID`),
+                  KEY `Product_ID` (`Product_ID`),
+                  CONSTRAINT `recDetailReClaim_ibfk_1` FOREIGN KEY (`recReceiveClaim_ID`) REFERENCES `recreceiveclaim` (`recReceiveClaim_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recDetailReClaim_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recdetailreorder">
+                CREATE TABLE `recdetailreorder` (
+                  `recDetailReOrder_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Qty` int(11) NOT NULL DEFAULT '0',
+                  `Price` double NOT NULL,
+                  `recReOrder_ID` int(11) DEFAULT NULL,
+                  `Product_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recDetailReOrder_ID`),
+                  KEY `recReOrder_ID` (`recReOrder_ID`),
+                  KEY `Product_ID` (`Product_ID`),
+                  CONSTRAINT `recDetailReOrder_ibfk_1` FOREIGN KEY (`recReOrder_ID`) REFERENCES `recreorder` (`recReOrder_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recDetailReOrder_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recdetailretailer">
+                CREATE TABLE `recdetailretailer` (
+                  `recDetailRetailer_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Qty` int(11) NOT NULL,
+                  `price` double NOT NULL,
+                  `recRetailer_ID` int(11) DEFAULT NULL,
+                  `Product_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recDetailRetailer_ID`),
+                  KEY `recRetailer_ID` (`recRetailer_ID`),
+                  KEY `Product_ID` (`Product_ID`),
+                  CONSTRAINT `recDetailRetailer_ibfk_1` FOREIGN KEY (`recRetailer_ID`) REFERENCES `recretailer` (`recRetailer_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recDetailRetailer_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recfineemp">
+                CREATE TABLE `recfineemp` (
+                  `recFineEmp_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Date` date NOT NULL,
+                  `Detail` text CHARACTER SET utf8 NOT NULL,
+                  `Amount` double NOT NULL,
+                  `Employee_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recFineEmp_ID`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `recFineEmp_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="reclend">
+                CREATE TABLE `reclend` (
+                  `reclend_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Date_Lend` date NOT NULL,
+                  `Date_Required` date NOT NULL,
+                  `Sum_Qty` int(11) DEFAULT '0',
+                  `Source_Branch` int(11) NOT NULL,
+                  `Destination_Branch` int(11) NOT NULL,
+                  `Employee_ID_Borrower` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+                  `Employee_ID_Recipient` int(11) DEFAULT NULL,
+                  PRIMARY KEY (`reclend_ID`),
+                  KEY `Destination_Branch` (`Destination_Branch`),
+                  KEY `Employee_ID_Recipient` (`Employee_ID_Recipient`),
+                  CONSTRAINT `reclend_ibfk_1` FOREIGN KEY (`Destination_Branch`) REFERENCES `branch` (`Branch_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `reclend_ibfk_2` FOREIGN KEY (`Employee_ID_Recipient`) REFERENCES `employee` (`Employee_ID`) ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recmovestore">
+                CREATE TABLE `recmovestore` (
+                  `recMoveStore_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Date` date NOT NULL,
+                  `Cause` text CHARACTER SET utf8 NOT NULL,
+                  `BranchMove_ID` int(11) NOT NULL,
+                  `BranchRe_ID` int(11) NOT NULL,
+                  `Department_Name` varchar(50) NOT NULL,
+                  `Position_Name` varchar(50) NOT NULL,
+                  `Employee_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recMoveStore_ID`),
+                  KEY `BranchMove_ID` (`BranchMove_ID`,`BranchRe_ID`,`Department_Name`,`Position_Name`,`Employee_ID`),
+                  KEY `BranchRe_ID` (`BranchRe_ID`),
+                  KEY `Department_ID` (`Department_Name`),
+                  KEY `Position_ID` (`Position_Name`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `recMoveStore_ibfk_3` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recMoveStore_ibfk_4` FOREIGN KEY (`Department_Name`) REFERENCES `department` (`Department_Name`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recMoveStore_ibfk_5` FOREIGN KEY (`Position_Name`) REFERENCES `position` (`Position_Name`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recordervendor">
+                CREATE TABLE `recordervendor` (
+                  `recOrderVendor_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Date` date NOT NULL,
+                  `Qty` int(11) DEFAULT NULL,
+                  `SumPrice` double DEFAULT NULL,
+                  `RecieveDate` date NOT NULL,
+                  `Vendor_ID` int(11) NOT NULL,
+                  `Employee_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recOrderVendor_ID`),
+                  KEY `Vendor_ID` (`Vendor_ID`,`Employee_ID`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `recOrderVendor_ibfk_1` FOREIGN KEY (`Vendor_ID`) REFERENCES `vendor` (`Vendor_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recOrderVendor_ibfk_2` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recpaycus">
+                CREATE TABLE `recpaycus` (
+                  `recPayCus_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `sumprice` double DEFAULT NULL,
+                  `Typeofpay` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+                  `Status` tinyint(11) NOT NULL DEFAULT '0',
+                  `Datepay` date DEFAULT NULL,
+                  `Employee_ID` int(11) DEFAULT NULL,
+                  `Order_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recPayCus_ID`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  KEY `Order_ID` (`Order_ID`),
+                  CONSTRAINT `recPayCus_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recPayCus_ibfk_2` FOREIGN KEY (`Order_ID`) REFERENCES `orders` (`Order_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recreceiveclaim">
+                CREATE TABLE `recreceiveclaim` (
+                  `recReceiveClaim_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `sumQty` int(11) NOT NULL,
+                  `recClaimVendor_ID` int(11) NOT NULL,
+                  `Employee_ID` int(11) NOT NULL,
+                  `DateGet` date NOT NULL,
+                  `sumprice` int(11) NOT NULL,
+                  PRIMARY KEY (`recReceiveClaim_ID`),
+                  KEY `DetailClaimVendor_ID` (`recClaimVendor_ID`,`Employee_ID`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `recReceiveClaim_ibfk_2` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recreceiveclaim_ibfk_1` FOREIGN KEY (`recClaimVendor_ID`) REFERENCES `recclaimvendor_id` (`recClaimVendor_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recreorder">
+                CREATE TABLE `recreorder` (
+                  `recReOrder_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `DateRe` date NOT NULL,
+                  `Qty` int(11) NOT NULL DEFAULT '0',
+                  `Amount` double NOT NULL DEFAULT '0',
+                  `recOrderVendor_ID` int(11) NOT NULL,
+                  `Employee_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recReOrder_ID`),
+                  KEY `recDetailReOrder_ID` (`recOrderVendor_ID`,`Employee_ID`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `recReOrder_ibfk_2` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recreorder_ibfk_1` FOREIGN KEY (`recOrderVendor_ID`) REFERENCES `recordervendor` (`recOrderVendor_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recretailer">
+                CREATE TABLE `recretailer` (
+                  `recRetailer_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `dateofpay` date NOT NULL,
+                  `Employee ID` int(11) NOT NULL,
+                  `sumprice` double DEFAULT '0',
+                  `sumqty` double DEFAULT '0',
+                  PRIMARY KEY (`recRetailer_ID`),
+                  KEY `Employee ID` (`Employee ID`),
+                  CONSTRAINT `recRetailer_ibfk_1` FOREIGN KEY (`Employee ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recsalary">
+                CREATE TABLE `recsalary` (
+                  `recSalary_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Amount` double NOT NULL,
+                  `Payout` int(11) NOT NULL,
+                  `Date` date NOT NULL,
+                  `Employee_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recSalary_ID`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `recSalary_ibfk_1` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recsender">
+                CREATE TABLE `recsender` (
+                  `recSender_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Date` date NOT NULL,
+                  `Distance` int(11) NOT NULL,
+                  `Car_ID` int(11) NOT NULL,
+                  `Employee_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recSender_ID`),
+                  KEY `Car_ID` (`Car_ID`,`Employee_ID`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `recSender_ibfk_1` FOREIGN KEY (`Car_ID`) REFERENCES `car` (`Car_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recSender_ibfk_2` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="recworktime">
+                CREATE TABLE `recworktime` (
+                  `recWorkTime_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `TimeIn` time NOT NULL,
+                  `TimeOut` time NOT NULL,
+                  `Date` date NOT NULL,
+                  `TypeWork_Name` varchar(50) NOT NULL,
+                  `Employee_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`recWorkTime_ID`),
+                  KEY `TypeWork_ID` (`TypeWork_Name`,`Employee_ID`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `recWorkTime_ibfk_2` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `recWorkTime_ibfk_3` FOREIGN KEY (`TypeWork_Name`) REFERENCES `typework` (`TypeWork_Name`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="stock">
+                CREATE TABLE `stock` (
+                  `stock_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Qty` int(11) NOT NULL,
+                  `Branch_ID` int(11) NOT NULL,
+                  `Product_ID` int(11) NOT NULL,
+                  PRIMARY KEY (`stock_ID`),
+                  KEY `Branch_ID` (`Branch_ID`),
+                  KEY `Product_ID` (`Product_ID`),
+                  CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`Branch_ID`) REFERENCES `branch` (`Branch_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+                  CONSTRAINT `stock_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="typepay">
+                CREATE TABLE `typepay` (
+                  `TypePay_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `NameType` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  PRIMARY KEY (`TypePay_ID`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="typeproduct">
+                CREATE TABLE `typeproduct` (
+                  `name` varchar(50) NOT NULL,
+                  PRIMARY KEY (`name`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="typework">
+                CREATE TABLE `typework` (
+                  `TypeWork_Name` varchar(50) NOT NULL,
+                  PRIMARY KEY (`TypeWork_Name`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="typeworkoff">
+                CREATE TABLE `typeworkoff` (
+                  `Type_Name` varchar(50) NOT NULL,
+                  PRIMARY KEY (`Type_Name`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            </pma:table>
+            <pma:table name="vendor">
+                CREATE TABLE `vendor` (
+                  `Vendor_ID` int(11) NOT NULL AUTO_INCREMENT,
+                  `Vendor_Name` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Tel` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Email` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Address` text CHARACTER SET utf8 NOT NULL,
+                  `District` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `prefecture` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Road` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Province` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  `Zipcode` varchar(50) CHARACTER SET utf8 NOT NULL,
+                  PRIMARY KEY (`Vendor_ID`)
+                ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+            </pma:table>
+            <pma:table name="workoff">
+                CREATE TABLE `workoff` (
+                  `workoff_id` int(11) NOT NULL,
+                  `date` date NOT NULL,
+                  `detail` text NOT NULL,
+                  `type_name` varchar(50) NOT NULL,
+                  `Employee_ID` int(11) NOT NULL,
+                  `How_many_days` int(11) NOT NULL,
+                  PRIMARY KEY (`workoff_id`),
+                  KEY `type_name` (`type_name`),
+                  KEY `Employee_ID` (`Employee_ID`),
+                  CONSTRAINT `workoff_ibfk_1` FOREIGN KEY (`type_name`) REFERENCES `typeworkoff` (`Type_Name`) ON DELETE NO ACTION ON UPDATE CASCADE,
+                  CONSTRAINT `workoff_ibfk_2` FOREIGN KEY (`Employee_ID`) REFERENCES `employee` (`Employee_ID`) ON DELETE NO ACTION ON UPDATE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 's59160089'
+    -->
+    <database name="s59160089">
+        <!-- Table billorder -->
+        <table name="billorder">
+            <column name="BillOrder_ID">4</column>
+            <column name="datePay">2504-02-13</column>
+            <column name="statut">1</column>
+            <column name="amount">500</column>
+            <column name="TypePay_ID">2</column>
+            <column name="recOrderVendor_ID">7</column>
+        </table>
+        <table name="billorder">
+            <column name="BillOrder_ID">5</column>
+            <column name="datePay">2561-02-13</column>
+            <column name="statut">0</column>
+            <column name="amount">500</column>
+            <column name="TypePay_ID">1</column>
+            <column name="recOrderVendor_ID">7</column>
+        </table>
+        <!-- Table branch -->
+        <table name="branch">
+            <column name="Branch_ID">3</column>
+            <column name="Bra_Tal">88222222</column>
+            <column name="Bra_HouseNo">4444</column>
+            <column name="Bra_Area">ศรีราชา</column>
+            <column name="Bra_Subarea">ทุ่งสุขลา</column>
+            <column name="Bra_Road">สุขุมวิท</column>
+            <column name="Bra_Province">ชลบุรี</column>
+            <column name="Bra_PostalCode">20230</column>
+            <column name="Bra_Email">chain2541@hotmail.com</column>
+        </table>
+        <table name="branch">
+            <column name="Branch_ID">4</column>
+            <column name="Bra_Tal">08224545</column>
+            <column name="Bra_HouseNo">7587</column>
+            <column name="Bra_Area">ทุ่งสุขลา</column>
+            <column name="Bra_Subarea">ทุ่งสุดเกดเ</column>
+            <column name="Bra_Road">ถนนน</column>
+            <column name="Bra_Province">ชลบุรีกด</column>
+            <column name="Bra_PostalCode">20230</column>
+            <column name="Bra_Email">chasd;sd;dsf</column>
+        </table>
+        <!-- Table car -->
+        <table name="car">
+            <column name="Car_ID">1</column>
+            <column name="register">1234</column>
+            <column name="NumberTank">1</column>
+            <column name="Branch_ID">3</column>
+            <column name="status">0</column>
+        </table>
+        <!-- Table copy -->
+        <!-- Table customer -->
+        <table name="customer">
+            <column name="Customer_ID">1</column>
+            <column name="Cus_Fname">นายคเชนทร์</column>
+            <column name="Cus_Lname">จันทะรัตน์</column>
+            <column name="Cus_Email">chain2541@hotmail.com</column>
+            <column name="Cus_HouseNo">14/46</column>
+            <column name="Cus_Road">สุขุมวิท</column>
+            <column name="Cus_Subarea">ทุ่งสุขลา</column>
+            <column name="Cus_Area">ศรีราชา</column>
+            <column name="Cus_Province">ชลบุรี</column>
+            <column name="Cus_PostalCode">20230</column>
+            <column name="Tel">0880630106</column>
+        </table>
+        <table name="customer">
+            <column name="Customer_ID">3</column>
+            <column name="Cus_Fname">นายคเชนทร์</column>
+            <column name="Cus_Lname">จันทะรัตนะ</column>
+            <column name="Cus_Email">chain2541@hotmail.com</column>
+            <column name="Cus_HouseNo">14/46</column>
+            <column name="Cus_Road">สุขุมวิท</column>
+            <column name="Cus_Subarea">ทุ่งสุขลา</column>
+            <column name="Cus_Area">ศรีราชา</column>
+            <column name="Cus_Province">ชลบุรี</column>
+            <column name="Cus_PostalCode">20230</column>
+            <column name="Tel">0880630106</column>
+        </table>
+        <!-- Table department -->
+        <table name="department">
+            <column name="Department_Name">seller</column>
+            <column name="ID_Head">8462</column>
+        </table>
+        <!-- Table detailclaimvendor -->
+        <!-- Table detailfix -->
+        <!-- Table detailrend -->
+        <!-- Table detailsend -->
+        <!-- Table employee -->
+        <table name="employee">
+            <column name="Employee_ID">8462</column>
+            <column name="EMP_FNAME">คเชนทร์</column>
+            <column name="EMP_LNAME">จันทะรัตน์</column>
+            <column name="Publiccode">1390500044410</column>
+            <column name="Accountnumber">4866-251515-12</column>
+            <column name="Address">อ่าวอุดม ซอย 54</column>
+            <column name="HisEducation">
+ศรีราชา</column>
+            <column name="Tel">880630106</column>
+            <column name="Email">chain2541@hotmail.com</column>
+            <column name="DateStart">2018-02-07</column>
+            <column name="Brithday">2018-02-07</column>
+            <column name="Salary">200000</column>
+            <column name="Department_ID">seller</column>
+            <column name="Branch_ID">3</column>
+            <column name="Position_ID">HEAD</column>
+        </table>
+        <!-- Table fix -->
+        <!-- Table login -->
+        <table name="login">
+            <column name="Login_ID">6</column>
+            <column name="username">admin</column>
+            <column name="password">admin</column>
+            <column name="level">admin</column>
+            <column name="Employee_ID">8462</column>
+        </table>
+        <!-- Table orderdetails -->
+        <!-- Table orders -->
+        <!-- Table position -->
+        <table name="position">
+            <column name="Position_Name">HEAD</column>
+            <column name="Position_Fee">200</column>
+        </table>
+        <!-- Table product -->
+        <table name="product">
+            <column name="Product_ID">1</column>
+            <column name="nameProduct">ปืน</column>
+            <column name="TypeProduct">ของใช้</column>
+            <column name="Qty">40</column>
+            <column name="wholesaleCost">100</column>
+            <column name="RetailPrice">500</column>
+        </table>
+        <table name="product">
+            <column name="Product_ID">2</column>
+            <column name="nameProduct">กัญชา</column>
+            <column name="TypeProduct">ขนม</column>
+            <column name="Qty">30</column>
+            <column name="wholesaleCost">150</column>
+            <column name="RetailPrice">200</column>
+        </table>
+        <table name="product">
+            <column name="Product_ID">3</column>
+            <column name="nameProduct">ผ้า</column>
+            <column name="TypeProduct">ของใช้</column>
+            <column name="Qty">20</column>
+            <column name="wholesaleCost">45</column>
+            <column name="RetailPrice">50</column>
+        </table>
+        <table name="product">
+            <column name="Product_ID">4</column>
+            <column name="nameProduct">น้ำ</column>
+            <column name="TypeProduct">เครื่องดืม</column>
+            <column name="Qty">50</column>
+            <column name="wholesaleCost">50</column>
+            <column name="RetailPrice">50</column>
+        </table>
+        <table name="product">
+            <column name="Product_ID">5</column>
+            <column name="nameProduct">น้ำอัดลม</column>
+            <column name="TypeProduct">เครื่องดืม</column>
+            <column name="Qty">50</column>
+            <column name="wholesaleCost">50</column>
+            <column name="RetailPrice">50</column>
+        </table>
+        <table name="product">
+            <column name="Product_ID">6</column>
+            <column name="nameProduct">แสนค</column>
+            <column name="TypeProduct">ขนม</column>
+            <column name="Qty">50</column>
+            <column name="wholesaleCost">9</column>
+            <column name="RetailPrice">10</column>
+        </table>
+        <table name="product">
+            <column name="Product_ID">7</column>
+            <column name="nameProduct">นม</column>
+            <column name="TypeProduct">เครื่องดืม</column>
+            <column name="Qty">50</column>
+            <column name="wholesaleCost">13</column>
+            <column name="RetailPrice">15</column>
+        </table>
+        <table name="product">
+            <column name="Product_ID">8</column>
+            <column name="nameProduct">ไฟ</column>
+            <column name="TypeProduct">ของใช้</column>
+            <column name="Qty">50</column>
+            <column name="wholesaleCost">14</column>
+            <column name="RetailPrice">15</column>
+        </table>
+        <table name="product">
+            <column name="Product_ID">9</column>
+            <column name="nameProduct">ไม้</column>
+            <column name="TypeProduct">อุปกรณ์</column>
+            <column name="Qty">50</column>
+            <column name="wholesaleCost">50</column>
+            <column name="RetailPrice">50</column>
+        </table>
+        <table name="product">
+            <column name="Product_ID">10</column>
+            <column name="nameProduct">นมแดง</column>
+            <column name="TypeProduct">เครื่องดืม</column>
+            <column name="Qty">50</column>
+            <column name="wholesaleCost">50</column>
+            <column name="RetailPrice">50</column>
+        </table>
+        <table name="product">
+            <column name="Product_ID">11</column>
+            <column name="nameProduct">เม้า</column>
+            <column name="TypeProduct">ของใช้</column>
+            <column name="Qty">20</column>
+            <column name="wholesaleCost">200</column>
+            <column name="RetailPrice">400</column>
+        </table>
+        <!-- Table recclaimcustomer -->
+        <!-- Table recclaimvendor_id -->
+        <!-- Table recdetailclaimcus -->
+        <!-- Table recdetailordervendor -->
+        <table name="recdetailordervendor">
+            <column name="recDetailOrderVendor_ID">7</column>
+            <column name="Qty">10</column>
+            <column name="Price">5</column>
+            <column name="recOrderVendor_ID">7</column>
+            <column name="Product_ID">1</column>
+        </table>
+        <table name="recdetailordervendor">
+            <column name="recDetailOrderVendor_ID">8</column>
+            <column name="Qty">10</column>
+            <column name="Price">5</column>
+            <column name="recOrderVendor_ID">7</column>
+            <column name="Product_ID">2</column>
+        </table>
+        <table name="recdetailordervendor">
+            <column name="recDetailOrderVendor_ID">9</column>
+            <column name="Qty">5</column>
+            <column name="Price">5</column>
+            <column name="recOrderVendor_ID">7</column>
+            <column name="Product_ID">3</column>
+        </table>
+        <table name="recdetailordervendor">
+            <column name="recDetailOrderVendor_ID">10</column>
+            <column name="Qty">10</column>
+            <column name="Price">5</column>
+            <column name="recOrderVendor_ID">8</column>
+            <column name="Product_ID">1</column>
+        </table>
+        <!-- Table recdetailreclaim -->
+        <!-- Table recdetailreorder -->
+        <table name="recdetailreorder">
+            <column name="recDetailReOrder_ID">1</column>
+            <column name="Qty">10</column>
+            <column name="Price">5</column>
+            <column name="recReOrder_ID">2</column>
+            <column name="Product_ID">1</column>
+        </table>
+        <!-- Table recdetailretailer -->
+        <table name="recdetailretailer">
+            <column name="recDetailRetailer_ID">16</column>
+            <column name="Qty">10</column>
+            <column name="price">50</column>
+            <column name="recRetailer_ID">10</column>
+            <column name="Product_ID">3</column>
+        </table>
+        <table name="recdetailretailer">
+            <column name="recDetailRetailer_ID">17</column>
+            <column name="Qty">10</column>
+            <column name="price">50</column>
+            <column name="recRetailer_ID">11</column>
+            <column name="Product_ID">3</column>
+        </table>
+        <table name="recdetailretailer">
+            <column name="recDetailRetailer_ID">18</column>
+            <column name="Qty">10</column>
+            <column name="price">200</column>
+            <column name="recRetailer_ID">12</column>
+            <column name="Product_ID">2</column>
+        </table>
+        <table name="recdetailretailer">
+            <column name="recDetailRetailer_ID">19</column>
+            <column name="Qty">10</column>
+            <column name="price">500</column>
+            <column name="recRetailer_ID">13</column>
+            <column name="Product_ID">1</column>
+        </table>
+        <!-- Table recfineemp -->
+        <!-- Table reclend -->
+        <!-- Table recmovestore -->
+        <!-- Table recordervendor -->
+        <table name="recordervendor">
+            <column name="recOrderVendor_ID">7</column>
+            <column name="Date">2561-02-13</column>
+            <column name="Qty">15</column>
+            <column name="SumPrice">75</column>
+            <column name="RecieveDate">2561-02-13</column>
+            <column name="Vendor_ID">1</column>
+            <column name="Employee_ID">8462</column>
+        </table>
+        <table name="recordervendor">
+            <column name="recOrderVendor_ID">8</column>
+            <column name="Date">2561-02-13</column>
+            <column name="Qty">5</column>
+            <column name="SumPrice">25</column>
+            <column name="RecieveDate">2561-02-13</column>
+            <column name="Vendor_ID">1</column>
+            <column name="Employee_ID">8462</column>
+        </table>
+        <!-- Table recpaycus -->
+        <!-- Table recreceiveclaim -->
+        <!-- Table recreorder -->
+        <table name="recreorder">
+            <column name="recReOrder_ID">2</column>
+            <column name="DateRe">2561-02-14</column>
+            <column name="Qty">10</column>
+            <column name="Amount">50</column>
+            <column name="recOrderVendor_ID">8</column>
+            <column name="Employee_ID">8462</column>
+        </table>
+        <!-- Table recretailer -->
+        <table name="recretailer">
+            <column name="recRetailer_ID">10</column>
+            <column name="dateofpay">2561-02-15</column>
+            <column name="Employee ID">8462</column>
+            <column name="sumprice">500</column>
+            <column name="sumqty">10</column>
+        </table>
+        <table name="recretailer">
+            <column name="recRetailer_ID">11</column>
+            <column name="dateofpay">2561-02-15</column>
+            <column name="Employee ID">8462</column>
+            <column name="sumprice">500</column>
+            <column name="sumqty">10</column>
+        </table>
+        <table name="recretailer">
+            <column name="recRetailer_ID">12</column>
+            <column name="dateofpay">2561-02-15</column>
+            <column name="Employee ID">8462</column>
+            <column name="sumprice">2000</column>
+            <column name="sumqty">10</column>
+        </table>
+        <table name="recretailer">
+            <column name="recRetailer_ID">13</column>
+            <column name="dateofpay">2561-02-15</column>
+            <column name="Employee ID">8462</column>
+            <column name="sumprice">5000</column>
+            <column name="sumqty">10</column>
+        </table>
+        <!-- Table recsalary -->
+        <!-- Table recsender -->
+        <!-- Table recworktime -->
+        <!-- Table stock -->
+        <!-- Table typepay -->
+        <table name="typepay">
+            <column name="TypePay_ID">1</column>
+            <column name="NameType">transfer</column>
+        </table>
+        <table name="typepay">
+            <column name="TypePay_ID">2</column>
+            <column name="NameType">pay cash</column>
+        </table>
+        <!-- Table typeproduct -->
+        <table name="typeproduct">
+            <column name="name">ขนม</column>
+        </table>
+        <table name="typeproduct">
+            <column name="name">ของใช้</column>
+        </table>
+        <table name="typeproduct">
+            <column name="name">ทั้งหมด</column>
+        </table>
+        <table name="typeproduct">
+            <column name="name">อาหารกระป๋อง</column>
+        </table>
+        <table name="typeproduct">
+            <column name="name">อาหารแห้ง</column>
+        </table>
+        <table name="typeproduct">
+            <column name="name">อุปกรณ์</column>
+        </table>
+        <table name="typeproduct">
+            <column name="name">เครื่องดืม</column>
+        </table>
+        <table name="typeproduct">
+            <column name="name">เครื่องปรุง</column>
+        </table>
+        <!-- Table typework -->
+        <table name="typework">
+            <column name="TypeWork_Name">ontime</column>
+        </table>
+        <table name="typework">
+            <column name="TypeWork_Name">overtime</column>
+        </table>
+        <!-- Table typeworkoff -->
+        <table name="typeworkoff">
+            <column name="Type_Name">PERSONAL_LEAVE</column>
+        </table>
+        <table name="typeworkoff">
+            <column name="Type_Name">SICK_LEAVE</column>
+        </table>
+        <!-- Table vendor -->
+        <table name="vendor">
+            <column name="Vendor_ID">1</column>
+            <column name="Vendor_Name">NASA</column>
+            <column name="Tel">855520002</column>
+            <column name="Email">chain2541@hotmail.com</column>
+            <column name="Address">521/12</column>
+            <column name="District">ทุ่งสุขลา</column>
+            <column name="prefecture">ศรีราชา</column>
+            <column name="Road">สุขุมวิท</column>
+            <column name="Province">ชลบุรี</column>
+            <column name="Zipcode">20230</column>
+        </table>
+        <table name="vendor">
+            <column name="Vendor_ID">2</column>
+            <column name="Vendor_Name">NASA2</column>
+            <column name="Tel">855520002</column>
+            <column name="Email">chain2541@hotmail.com</column>
+            <column name="Address">521/12</column>
+            <column name="District">ทุ่งสุขลา</column>
+            <column name="prefecture">ศรีราชา</column>
+            <column name="Road">สุขุมวิท</column>
+            <column name="Province">ชลบุรี</column>
+            <column name="Zipcode">20230</column>
+        </table>
+        <!-- Table workoff -->
+    </database>
+</pma_xml_export>
